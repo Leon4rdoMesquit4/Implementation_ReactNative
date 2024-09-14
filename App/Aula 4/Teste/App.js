@@ -1,21 +1,31 @@
-import {TextInput, Text, Image, SafeAreaView} from 'react-native';
-import {useState} from 'react'
+import { SafeAreaView, StyleSheet, View, Image, ScrollView } from "react-native";
+import { userState } from 'react'
 
 function App() {
-  let nome = 'Gabigol'
-  const [name, setName] = useState(null)
+
+const [users, setUsers] = userState(
+  [
+    
+  ]
+)
 
   return (
-    <SafeAreaView style={{ alignItems: 'center' }}>
-      <Header text={name}/>
-      <Imagem largura={windowWidth - 40} comprimento={435}  />
-      <TextInput
-        placeholder="Escreva aqui"
-        value={name}
-        onChangeText={setName}
-      />
-    </SafeAreaView>
+    <View style={{flex: 1}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{ flex: 1, height: 250, backgroundColor: 'red'}}></View>
+        <View style={{ flex: 1, height: 250, backgroundColor: 'blue'}}></View>
+        <View style={{ flex: 1, height: 250, backgroundColor: 'green'}}></View>
+        <View style={{ flex: 1, height: 250, backgroundColor: 'purple'}}></View>
+      </ScrollView>
+    </View>
   );
 }
 
-export default App
+export default App;
+
+let styles = StyleSheet.create({
+  container: {
+    marginTop: 50,
+  },
+}
+)
