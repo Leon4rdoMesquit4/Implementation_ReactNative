@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container3: {
-    position: "absolute", // Faz com que a imagem fique em uma camada inferior
+    position: "absolute", 
     width: "100%",
     height: 75,
     resizeMode: "contain",
