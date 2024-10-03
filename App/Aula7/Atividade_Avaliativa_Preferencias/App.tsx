@@ -57,7 +57,11 @@ export default function App() {
           maximumValue={30}
           value={fontSize}
           step={1}
-          onValueChange={(item) => setFontSize(item)}
+          onValueChange={(item) => setFontSize(item)
+          }
+          minimumTrackTintColor="red"  
+        maximumTrackTintColor="#3e3e3e"  
+        thumbTintColor="white" 
         />
         <View style={styles.sub2horizontalContainer}>
           <Text style={[styles.subtitle]}>
