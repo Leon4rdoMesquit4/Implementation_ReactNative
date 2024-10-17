@@ -17,11 +17,10 @@ export default function App() {
     tesoura: require("./assets/tesoura.png"),
   };
 
+  const [estaJogando, setEstaJogando] = useState(false);
   const [escolhaDoJogador, setescolhaDoJogador] = useState(opcoes.papel);
   const [escolhaDoAdversário, setescolhaDoAdversário] = useState(opcoes.pedra);
   const [resultado, setResultado] = useState('');
-
-  const [estaJogando, setEstaJogando] = useState(false);
 
   const escolhaAleatoria = () => {
     const choose = [opcoes.pedra, opcoes.papel, opcoes.tesoura];
