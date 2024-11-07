@@ -12,19 +12,20 @@ import {
 } from "react-native";
 
 export default function App() {
-  const [tarefa, setTarefa] = useState('');
-  const [tarefas, setTarefas] = useState(['']);
+  const [tarefa, setTarefa] = useState("");
+  const [tarefas, setTarefas] = useState([""]);
+  const [isPressed, setIsPressed] = useState(false);
 
   useEffect(() => {
     getTarefas();
-  });
+  }, []);
 
   async function addTarefas() {
     try {
       const tarefasAtualizadas = [...tarefas, tarefa];
       setTarefas(tarefasAtualizadas);
       await AsyncStorage.setItem("tarefas", JSON.stringify(tarefasAtualizadas));
-      setTarefa('');
+      setTarefa("");
     } catch (error) {
       console.error(error);
     }
@@ -46,16 +47,15 @@ export default function App() {
     const index = tarefas.indexOf(tarefa);
     let tarefasAtualizadas = [...tarefas];
     try {
-
       if (index > -1) {
         tarefas.splice(index, 1);
         tarefasAtualizadas = tarefas;
       } else {
-        console.error('Tarefa não encontrada');
+        console.error("Tarefa não encontrada");
       }
       await AsyncStorage.setItem("tarefas", JSON.stringify(tarefasAtualizadas));
       setTarefas(tarefasAtualizadas);
-      
+      getTarefas();
     } catch (error) {
       console.error(error);
     }
@@ -71,28 +71,46 @@ export default function App() {
         onChangeText={(value) => setTarefa(value)}
         value={tarefa}
       ></TextInput>
-      <Pressable style={styles.button} onPress={() => addTarefas()}>
+      <Pressable
+        style={[
+          styles.button,
+          {
+            backgroundColor: isPressed ? "#07d" : "#05f",
+            transform: [{ scale: isPressed ? 0.98 : 1 }],
+          },
+        ]}
+        onPressOut={() => {
+          setIsPressed(false);
+          addTarefas();
+        }}
+        onPressIn={() => setIsPressed(true)}
+      >
         <Text style={styles.text2}>Clique aqui</Text>
       </Pressable>
       <FlatList
-      style={styles.list}
+        style={styles.list}
         data={tarefas}
-        renderItem={({ item }) =>
-          <TouchableOpacity
-        style={styles.box}
-            onLongPress={() => Alert.alert('Deseja mesmo apagar o app?', 'Essa ação não poderá ser desfeita', [
-              {
-                text: 'Cancelar',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              { text: 'OK', onPress: () => deletarTarefas(item) },
-            ])}
-          >
-            <Text>{item}</Text>
-          </TouchableOpacity>
-
-        }
+        renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.box}
+              onLongPress={() =>
+                Alert.alert(
+                  "Deseja mesmo apagar o app?",
+                  "Essa ação não poderá ser desfeita",
+                  [
+                    {
+                      text: "Cancelar",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel",
+                    },
+                    { text: "OK", onPress: () => deletarTarefas(item) },
+                  ]
+                )
+              }
+            >
+              <Text>{item}</Text>
+            </TouchableOpacity>
+        )}
       ></FlatList>
     </SafeAreaView>
   );
@@ -136,10 +154,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
     padding: 15,
     marginBottom: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
   list: {
     width: "90%",
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 });
